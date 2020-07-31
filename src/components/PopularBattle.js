@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import './PopularBattle.css';
 
 class PopularBattle extends Component {
     constructor(props) {

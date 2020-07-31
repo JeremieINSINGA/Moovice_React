@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import './MyList.css';
 
 class MyList extends Component {
     render() {

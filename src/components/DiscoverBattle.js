@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import './DiscoverBattle.css';
 
 class DiscoverBattle extends Component {
     render() {

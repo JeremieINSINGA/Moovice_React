@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Link,
   Switch
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -12,6 +11,8 @@ import DiscoverBattle from './components/DiscoverBattle';
 import Popular from './components/Popular';
 import PopularBattle from './components/PopularBattle';
 import MyList from './components/MyList';
+import Details from './components/movie/Details';
+import NotFound from './components/NotFound';
 
 class App extends Component {
   constructor(props) {
@@ -47,28 +48,28 @@ class App extends Component {
   render() {
     const { language } = this.state;
     return(
-      <Router>
-        <div>
+      
+        <>
           <Navbar onChangeLanguage={this.onChangeLanguage} language={language}/>
-          <Switch>
-            <Route path="/week_battle">
-              <DiscoverBattle />
-            </Route>
-            <Route path="/popular">
-              <Popular language={language}/>
-            </Route>
-            <Route path="/popular_battle">
-              <PopularBattle />
-            </Route>
-            <Route path="/my_list">
-              <MyList />
-            </Route>            
-            <Route path="/">
-              <Discover />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
+          <Router>
+            <Switch>
+              <Route exact path="/" component={Discover}/>
+              <Route exact path="/week_battle">
+                <DiscoverBattle />
+              </Route>
+              <Route exact path="/popular">
+                <Popular language={language}/>
+              </Route>
+              <Route exact path="/popular_battle">
+                <PopularBattle />
+              </Route>
+              <Route exact path="/my_list" component={MyList} />
+              <Route path="/movie_detail/:id" component={Details} />
+              <Route component={NotFound} />           
+            </Switch>
+          </Router>
+        </>
+      
     );
   }
 }
