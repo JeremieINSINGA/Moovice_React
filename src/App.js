@@ -6,7 +6,6 @@ import {
   Switch
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/Navbar';
 import Discover from './components/Discover';
 import DiscoverBattle from './components/DiscoverBattle';
@@ -20,21 +19,43 @@ class App extends Component {
     this.state = {
       language: 'en',
     }
+    this.onChangeLanguage = this.onChangeLanguage.bind(this);
   }
 
+  componentDidMount() {
+    console.log('App#componentDidMount');
+    localStorage.getItem('language', this.state.language);
+  }
+
+  componentDidUpdate() {
+    console.log('App#componentDidUpdate');
+    localStorage.getItem('language', this.state.language);
+  }
+
+  componentDidCatch() {
+    console.log('App#componentDidCatch');
+    localStorage.getItem('language', this.state.language);
+  }
+
+  onChangeLanguage(language) {
+    this.setState({
+      language
+    });
+  }
   
 
   render() {
+    const { language } = this.state;
     return(
       <Router>
         <div>
-          <Navbar />
+          <Navbar onChangeLanguage={this.onChangeLanguage} language={language}/>
           <Switch>
             <Route path="/week_battle">
               <DiscoverBattle />
             </Route>
             <Route path="/popular">
-              <Popular />
+              <Popular language={language}/>
             </Route>
             <Route path="/popular_battle">
               <PopularBattle />

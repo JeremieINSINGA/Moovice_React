@@ -10,7 +10,28 @@ class Popular extends Component {
     }
 
     componentDidMount() {
-        const url = 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&language=fr&api_key=d15480851b1c788638106a997f9e5127';
+        const url = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&language=${this.props.language}&api_key=d15480851b1c788638106a997f9e5127`;
+        fetch(url).then((response) => response.json()).then(json => {
+            let itemTemp = {};
+            let movies = [];
+            console.log('movie 1', json.results.length);
+            json.results.map((item) => {
+                itemTemp = {};
+                itemTemp.title = item.title;
+                itemTemp.poster = item.poster_path;
+                itemTemp.description = item.overview;
+                itemTemp.date = item.release_date;
+                movies.push(itemTemp);
+            })
+            console.log('movies', movies);
+            this.setState({
+                movies
+            })
+        })
+    }
+
+    componentDidUpdate() {
+        const url = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&language=${this.props.language}&api_key=d15480851b1c788638106a997f9e5127`;
         fetch(url).then((response) => response.json()).then(json => {
             let itemTemp = {};
             let movies = [];
@@ -31,7 +52,7 @@ class Popular extends Component {
     }
 
     onClick() {
-        console.log('Click Card')
+        console.log('Click Button')
     }
 
     render() {        
@@ -45,7 +66,7 @@ class Popular extends Component {
                                     <Card 
                                         item={item} 
                                         key={key}
-                                        onClick={() => this.onClick(key)}/>
+                                    />
                                 </div>
                                 )
                             })

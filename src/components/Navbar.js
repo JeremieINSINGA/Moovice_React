@@ -1,8 +1,27 @@
 import React, { Component } from 'react';
+import Button from './core/Button'
 
 class Navbar extends Component {
+    constructor(props) {
+        super(props)
+        this.onClickButtonLanguage = this.onClickButtonLanguage.bind(this);
+    }
+    
+
+    onClickButtonLanguage() {
+        console.log("Navbar#OnClick")
+        let language = ''
+        if (this.props.language === 'en') {
+            language = 'fr'
+        } else if (this.props.language === 'fr') {
+            language = 'en'
+        }
+        this.props.onChangeLanguage(language)
+    }
+
     render() {
-        const languageE = this.props
+        let { language, onClick } = this.props;
+
         return(
             <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
                 <a className="navbar-brand" href="#">Moovice</a>
@@ -28,11 +47,16 @@ class Navbar extends Component {
                         </li>
                     </ul>
                 </div>
+                <ul className="nav navbar-nav navbar-right">
+                    <Button
+                        onClick={this.onClickButtonLanguage}
+                    >
+                        {language}
+                    </Button>
+                </ul>
             </nav>
         );
     }
 }
 
 export default Navbar
-
-
