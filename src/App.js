@@ -64,7 +64,9 @@ class App extends Component {
                 <PopularBattle />
               </Route>
               <Route exact path="/my_list" component={MyList} />
-              <Route path="/movie_detail/:id" component={Details} />
+              <Route path="/movie_detail/:id">
+                <Details language={language}/>
+              </Route>
               <Route component={NotFound} />           
             </Switch>
           </Router>
