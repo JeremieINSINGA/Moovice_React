@@ -11,3 +11,9 @@
     cursor: pointer;
     opacity: 0.6;
 }
+
+.material-icons {
+    position: absolute;
+    right: 0;
+    color: red;
+}

@@ -60,9 +60,11 @@ class App extends Component {
                 <Popular language={language} value={value}/>
               </Route>
               <Route exact path="/popular_battle">
-                <PopularBattle />
+                <PopularBattle language={language} value={value}/>
               </Route>
-              <Route exact path="/my_list" component={MyList} />
+              <Route exact path="/my_list">
+                <MyList language={language} value={value}/>
+              </Route>
               <Route path="/movie_detail/:id">
                 <Details language={language} value={value}/>
               </Route>

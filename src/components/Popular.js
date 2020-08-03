@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Card from './movie/Card';
 import { Link } from 'react-router-dom';
+import Card from './movie/Card';
 import './Popular.css';
 
 class Popular extends Component {
@@ -26,17 +26,15 @@ class Popular extends Component {
     chargedMovies() {
         const url = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&language=${this.props.language}&api_key=d15480851b1c788638106a997f9e5127`;
         fetch(url).then((response) => response.json()).then(json => {
-            let itemTemp = {};
+            let movieTemp = {};
             let movies = [];
-            json.results.map((item) => {
-                itemTemp                = {};
-                itemTemp.id             = item.id;
-                itemTemp.title          = item.title;
-                itemTemp.originalTitle  = item.original_title;
-                itemTemp.poster         = item.poster_path;
-                itemTemp.description    = item.overview;
-                itemTemp.date           = item.release_date;
-                movies.push(itemTemp);
+            json.results.map((movie) => {
+                movieTemp                = {};
+                movieTemp.id             = movie.id;
+                movieTemp.title          = movie.title;
+                movieTemp.poster         = movie.poster_path;
+                movieTemp.date           = movie.release_date;
+                movies.push(movieTemp);
             })
             this.setState({
                 movies
@@ -52,22 +50,28 @@ class Popular extends Component {
     }
 
     render() {
+        const { language } = this.props;
+        let title           = "";
+        if (language === 'en') {
+            title           = "Popular";
+        } else if (language === 'fr') {
+            title           = "Films Populaires";
+        }
         return(
             <div className="container">
                 <h1 className="text-center">Popular</h1>
                 <div className="row text-center">
-                        {this.state.movies.map((item, i) => {
+                        {this.state.movies.map((movie) => {
                             return(
                                 <div className="col-12 col-lg-3">
-                                    <Link to={`/movie_detail/${item.id}`}>
+                                    <Link to={`/movie_detail/${movie.id}`}>
                                         <Card 
-                                            item={item} 
-                                            key={i}
+                                            movie={movie} 
+                                            key={movie.id}
                                             onClickCard={this.onClickCard}
-                                            language={this.props.language}                                        
+                                            language={language}                                        
                                         />
-                                    </Link>
-                                    
+                                    </Link>                                    
                                 </div>
                                 )
                             })
