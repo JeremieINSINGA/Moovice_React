@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import './Discover.css';
 
 class NotFound extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render(){
         return(
             <div className="container">

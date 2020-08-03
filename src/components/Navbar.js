@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Button from './core/Button'
+import Button from './core/Button';
 
 class Navbar extends Component {
     constructor(props) {
@@ -43,8 +43,8 @@ class Navbar extends Component {
         }
 
         return(
-            <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-                <a className="navbar-brand" href="#">Moovice</a>
+            <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+                <a className="navbar-brand" href="/">Moovice</a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -67,13 +67,15 @@ class Navbar extends Component {
                         </li>
                     </ul>
                 </div>
-                <ul className="nav navbar-nav navbar-right">
-                    <Button
-                        onClick={this.onClickButtonLanguage}
-                    >
-                        {language}
-                    </Button>
-                </ul>
+                <div className="collapse navbar-collapse" id="navbarNav">
+                    <ul className="nav navbar-nav navbar-right">
+                        <Button
+                            onClick={this.onClickButtonLanguage}
+                        >
+                            {language}
+                        </Button>
+                    </ul>
+                </div>                
             </nav>
         );
     }

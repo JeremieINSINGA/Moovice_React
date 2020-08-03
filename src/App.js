@@ -19,34 +19,33 @@ class App extends Component {
     super(props);
     this.state = {
       language: 'en',
+      value: false,
     }
     this.onChangeLanguage = this.onChangeLanguage.bind(this);
   }
 
   componentDidMount() {
     console.log('App#componentDidMount');
-    localStorage.getItem('language', this.state.language);
   }
 
   componentDidUpdate() {
     console.log('App#componentDidUpdate');
-    localStorage.getItem('language', this.state.language);
   }
 
   componentDidCatch() {
     console.log('App#componentDidCatch');
-    localStorage.getItem('language', this.state.language);
   }
 
   onChangeLanguage(language) {
     this.setState({
       language
     });
+    this.setState(({ value }) => ({ value: !value }))
   }
   
 
   render() {
-    const { language } = this.state;
+    const { language, value } = this.state;
     return(
       
         <>
@@ -58,14 +57,14 @@ class App extends Component {
                 <DiscoverBattle />
               </Route>
               <Route exact path="/popular">
-                <Popular language={language}/>
+                <Popular language={language} value={value}/>
               </Route>
               <Route exact path="/popular_battle">
                 <PopularBattle />
               </Route>
               <Route exact path="/my_list" component={MyList} />
               <Route path="/movie_detail/:id">
-                <Details language={language}/>
+                <Details language={language} value={value}/>
               </Route>
               <Route component={NotFound} />           
             </Switch>

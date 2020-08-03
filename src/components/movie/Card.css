@@ -1,4 +1,13 @@
 .card {
-    width: '18rem';
+    width: 15em;
     margin: 1em auto;
+}
+
+.card img {
+    width: 15em;
+}
+
+.card:hover {
+    cursor: pointer;
+    opacity: 0.6;
 }

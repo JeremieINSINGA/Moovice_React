@@ -16,14 +16,19 @@ class Card extends Component {
         const { item } = this.props;
         const src = 'https://image.tmdb.org/t/p/w300/' + item.poster;
         const alt = 'Poster of ' + item.title;
+        let releaseDate = '';
+        if (this.props.language === "en") {
+            releaseDate = 'Release Date : ';
+        } else if (this.props.language === "fr") {
+            releaseDate = 'Date de Sortie : ';
+        }
 
         return(
             <div className="card" onClick={this.onClick}>
                 <img src={src} className="card-img-top" alt={alt} />
                 <div className="card-body">
-                    <h5 className="card-title">{item.title}</h5>
-                    <p>{item.description}</p>
-                    <p className="card-text">{item.id}</p>
+                    <h6 className="card-title">{item.title}</h6>
+                    <p className="card-text">{releaseDate}{item.date}</p>
                 </div>
             </div>
         );
