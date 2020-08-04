@@ -1,3 +1,9 @@
 .img_details {
     margin-top: 6em;
 }
+.movie-genre {
+    margin: .2em;
+    padding: .2em;
+    background-color: #343a40;
+    color: #ffffff;
+}

@@ -39,7 +39,7 @@ class Details extends Component {
     }
 
     chargedDetailsMovie(idMovie) {
-        const url = `https://api.themoviedb.org/3/movie/${idMovie}?api_key=${Config.API_KEY}&language=${this.props.language}`;
+        const url = `${Config.API_ROOT}movie/${idMovie}?api_key=${Config.API_KEY}&language=${this.props.language}`;
         fetch(url).then((response) => response.json()).then(json => {
             let detailsMovie = {};
             detailsMovie.id             = json.id;
@@ -48,6 +48,7 @@ class Details extends Component {
             detailsMovie.poster         = json.poster_path;
             detailsMovie.description    = json.overview;
             detailsMovie.date           = json.release_date;
+            detailsMovie.genres         = json.genres;
             this.setState({
                 detailsMovie
             })
@@ -83,9 +84,12 @@ class Details extends Component {
 
     }
 
-    render(){
-        const { movie, language } = this.props;
+    render(){        
+        const { language } = this.props;
         const { detailsMovie, idMoviesList, trailerMovie } = this.state;
+        let genres = {...detailsMovie};
+        genres = genres.genres;
+        console.log('Details#render genres', genres);
         const src = Config.IMG_ROOT + detailsMovie.poster;
         const alt = 'Poster of ' + detailsMovie.title;
         const urlTrailer = Config.TRAILER_ROOT + trailerMovie.key;
@@ -124,12 +128,15 @@ class Details extends Component {
                             icon = {icon}
                             id = {detailsMovie.id }
                         />                       
-                        <h4 className="text-center mt-3">{detailsMovie.originalTitle}</h4>                       
-
+                        <h4 className="text-center mt-3">{detailsMovie.originalTitle}</h4>
+                        <div className="row mb-3">
+                            {genres === undefined ? '' : genres.map((genre) => <div className="col-2 movie-genre text-center">{genre.name}</div>)}
+                        </div>
+                        <h5>Synopsie : </h5>
                         <p>{detailsMovie.description}</p>
                         <h6>{releaseDate}{detailsMovie.date}</h6>
                         {trailerMovie.key === undefined ? '' : 
-                            <button type="button" className="btn btn-primary video-btn" data-toggle="modal" data-src={urlTrailer} data-target="#myModal">
+                            <button type="button" className="btn btn-primary video-btn mt-5" data-toggle="modal" data-src={urlTrailer} data-target="#myModal">
                                 {language === 'fr' ? 'Voir la bande annonce' : 'See the trailer'}
                             </button>
                         }
