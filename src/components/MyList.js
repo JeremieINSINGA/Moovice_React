@@ -50,12 +50,11 @@ class MyList extends Component {
 
     render() {
         const { language } = this.props;
-        console.log(this.props.language)
-        let title           = "";
+        let title = "";
         if (language === 'en') {
-            title           = "My List";
+            title = "My List";
         } else if (language === 'fr') {
-            title           = "Ma Liste";
+            title = "Ma Liste";
         }
         return(
             <div className="container">

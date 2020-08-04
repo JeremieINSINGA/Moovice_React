@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
 import Button from '../core/Button';
+import Icon from '../core/Icon';
+import Config from '../../Config';
+
 import './Details.css';
 
 class Details extends Component {
@@ -10,6 +14,7 @@ class Details extends Component {
             idMovie: 0,
             detailsMovie: {},
             trailerMovie: {},
+            idMoviesList: this.getLocalStorage(),
         }
     }
 
@@ -26,14 +31,14 @@ class Details extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log('componentDidUpdate');
+        console.log('Details#componentDidUpdate');
         if (prevProps.value !== this.props.value) {
             this.chargedDetailsMovie(this.state.idMovie)
         }
     }
 
     chargedDetailsMovie(idMovie) {
-        const url = `https://api.themoviedb.org/3/movie/${idMovie}?api_key=d15480851b1c788638106a997f9e5127&language=${this.props.language}`;
+        const url = `https://api.themoviedb.org/3/movie/${idMovie}?api_key=${Config.API_KEY}&language=${this.props.language}`;
         fetch(url).then((response) => response.json()).then(json => {
             let detailsMovie = {};
             detailsMovie.id             = json.id;
@@ -46,48 +51,74 @@ class Details extends Component {
                 detailsMovie
             })
         })
-        const urlTrailer = `https://api.themoviedb.org/3/movie/${idMovie}/videos?api_key=d15480851b1c788638106a997f9e5127&language=${this.props.language}`;
+        const urlTrailer = `https://api.themoviedb.org/3/movie/${idMovie}/videos?api_key=${Config.API_KEY}&language=${this.props.language}`;
         fetch(urlTrailer).then((response) => response.json()).then(json => {
             let trailerMovie = {};
             trailerMovie.id = json.id;
-            trailerMovie.key = json.results[0].key;
-            this.setState({
-                trailerMovie
-            })
+            if (json.results[0] !== undefined) {
+                trailerMovie.key = json.results[0].key;
+                this.setState({
+                    trailerMovie
+                })
+            }
         })
     }
 
+    getLocalStorage() {
+        let idMoviesList = localStorage.getItem('myList');
+        idMoviesList = JSON.parse(idMoviesList);
+        return idMoviesList
+    }
+
     render(){
-        const src = 'https://image.tmdb.org/t/p/w300/' + this.state.detailsMovie.poster;
-        const alt = 'Poster of ' + this.state.detailsMovie.title;
-        const urlTrailer = 'https://www.youtube.com/embed/' + this.state.trailerMovie.key;
+        const { movie, language } = this.props;
+        const { detailsMovie, idMoviesList, trailerMovie } = this.state;
+        const src = Config.IMG_ROOT + detailsMovie.poster;
+        const alt = 'Poster of ' + detailsMovie.title;
+        const urlTrailer = Config.TRAILER_ROOT + trailerMovie.key;
         let releaseDate = '';
-        if (this.props.language === "en") {
+        let returnButton = '';
+        if (language === "en") {
             releaseDate = 'Release Date : ';
-        } else if (this.props.language === "fr") {
+            returnButton = 'Return';
+        } else if (language === "fr") {
             releaseDate = 'Date de Sortie : ';
+            returnButton = 'Retour';
+        }
+        let icon = '';
+        if (idMoviesList.includes(detailsMovie.id)) {
+            icon = 'favorite'
+        } else {
+            icon = 'favorite_border'
         }
 
         return(
             <div className="container">
                 <div className="row justify-content-between">
                     <div className="col-12 col-lg-3">
-                        <img src={src} alt={alt} />
+                        <img className="img_details" src={src} alt={alt} />
                         <Link to={'/popular'}>
                             <Button>
-                                Retour Details
+                                {returnButton}
                             </Button>
                         </Link>
                         
                     </div>
                     <div className="col-12 col-lg-8">
-                        <h1 className="text-center">{this.state.detailsMovie.title}</h1>
-                        <h4 className="text-center">{this.state.detailsMovie.originalTitle}</h4>
-                        <p>{this.state.detailsMovie.description}</p>
-                        <h6 className="text-center">{releaseDate}{this.state.detailsMovie.date}</h6>
-                        <button type="button" className="btn btn-primary video-btn" data-toggle="modal" data-src={urlTrailer} data-target="#myModal">
-                            {this.props.language === 'fr' ? 'Voir la bande annonce' : 'See the trailer'}
-                        </button>
+                        <h1 className="text-center">{detailsMovie.title}</h1> 
+                        <Icon 
+                            onClick = {this.onClickFavorite}
+                            icon = {icon}
+                        />                       
+                        <h4 className="text-center mt-3">{detailsMovie.originalTitle}</h4>                       
+
+                        <p>{detailsMovie.description}</p>
+                        <h6>{releaseDate}{detailsMovie.date}</h6>
+                        {trailerMovie.key === undefined ? '' : 
+                            <button type="button" className="btn btn-primary video-btn" data-toggle="modal" data-src={urlTrailer} data-target="#myModal">
+                                {language === 'fr' ? 'Voir la bande annonce' : 'See the trailer'}
+                            </button>
+                        }
                     </div>
                 </div>         
                 

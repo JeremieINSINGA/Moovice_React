@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
-import './Card.css';
+import { Link } from 'react-router-dom';
+
 import Icon from '../core/Icon';
+import placeholder from '../../placeholder.png';
+import Config from '../../Config';
+
+import './Card.css';
 
 class Card extends Component {
     constructor(props) {
@@ -22,10 +27,25 @@ class Card extends Component {
         this.props.onClickCard(this.props.movie.id);
     }
 
+    onClickFavorite() {
+        console.log('Card#onClickFavorite')
+    }
+
     render() {
         const { movie, language} = this.props;
-        const src = 'https://image.tmdb.org/t/p/w300/' + movie.poster;
-        const alt = 'Poster of ' + movie.title;
+        const { idMoviesList } = this.state;
+        let src = '';
+        let alt = '';
+        console.log('IMG', movie.poster);
+        if (movie.poster !== null) {
+            console.log('movie.poster', movie.poster)
+            src = Config.IMG_ROOT + movie.poster;
+            alt = 'Poster of ' + movie.title;
+        } else {
+            console.log('null')
+            src = placeholder
+            alt = 'Poster of DVD'
+        }
         let releaseDate = '';
         if (language === "en") {
             releaseDate = 'Release Date : ';
@@ -33,7 +53,7 @@ class Card extends Component {
             releaseDate = 'Date de Sortie : ';
         }
         let icon = '';
-        if (this.state.idMoviesList.includes(movie.id)) {
+        if (idMoviesList.includes(movie.id)) {
             icon = 'favorite'
         } else {
             icon = 'favorite_border'
@@ -42,13 +62,16 @@ class Card extends Component {
         return(
             <div className="card" onClick={this.onClick} key={movie.id}>
                 <Icon 
+                    onClick = {this.onClickFavorite}
                     icon = {icon}
                 />
-                <img src={src} className="card-img-top" alt={alt} />
-                <div className="card-body">
-                    <h6 className="card-title">{movie.title}</h6>
-                    <p className="card-text">{releaseDate}{movie.date}</p>
-                </div>
+                <Link to={`/movie_detail/${movie.id}`}>
+                    <img src={src} className="card-img-top" alt={alt} />
+                    <div className="card-body">
+                        <h6 className="card-title">{movie.title}</h6>
+                        <p className="card-text">{releaseDate}{movie.date}</p>
+                    </div>
+                </Link>   
             </div>
         );
     }    

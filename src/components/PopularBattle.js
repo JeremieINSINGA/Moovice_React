@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+
 import Card from './movie/Card';
+import Config from '../Config';
 import Vs from '../vs.png';
+
 import './PopularBattle.css';
 
 class PopularBattle extends Component {

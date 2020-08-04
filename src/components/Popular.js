@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+
 import Card from './movie/Card';
+import Config from '../Config';
+
 import './Popular.css';
 
 class Popular extends Component {
@@ -24,7 +26,7 @@ class Popular extends Component {
     }
 
     chargedMovies() {
-        const url = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&language=${this.props.language}&api_key=d15480851b1c788638106a997f9e5127`;
+        const url = `${Config.API_ROOT}discover/movie?sort_by=popularity.desc&language=${this.props.language}&api_key=${Config.API_KEY}`;
         fetch(url).then((response) => response.json()).then(json => {
             let movieTemp = {};
             let movies = [];
@@ -51,27 +53,25 @@ class Popular extends Component {
 
     render() {
         const { language } = this.props;
-        let title           = "";
+        let title = "";
         if (language === 'en') {
-            title           = "Popular";
+            title = "Popular";
         } else if (language === 'fr') {
-            title           = "Films Populaires";
+            title = "Films Populaires";
         }
         return(
             <div className="container">
-                <h1 className="text-center">Popular</h1>
+                <h1 className="text-center">{title}</h1>
                 <div className="row text-center">
                         {this.state.movies.map((movie) => {
                             return(
                                 <div className="col-12 col-lg-3">
-                                    <Link to={`/movie_detail/${movie.id}`}>
-                                        <Card 
-                                            movie={movie} 
-                                            key={movie.id}
-                                            onClickCard={this.onClickCard}
-                                            language={language}                                        
-                                        />
-                                    </Link>                                    
+                                    <Card 
+                                        movie={movie} 
+                                        key={movie.id}
+                                        onClickCard={this.onClickCard}
+                                        language={language}                                        
+                                    />                        
                                 </div>
                                 )
                             })
