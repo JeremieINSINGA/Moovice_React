@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Card from './movie/Card';
 import Config from '../Config';
@@ -46,8 +47,6 @@ class Popular extends Component {
 
 
     onClickCard(idClicked) {
-        this.goToDetails = true;
-        console.log(this.goToDetails);
         this.idClicked = idClicked;
     }
 
@@ -66,12 +65,14 @@ class Popular extends Component {
                         {this.state.movies.map((movie) => {
                             return(
                                 <div className="col-12 col-lg-3">
-                                    <Card 
-                                        movie={movie} 
-                                        key={movie.id}
-                                        onClickCard={this.onClickCard}
-                                        language={language}                                        
-                                    />                        
+                                    <Link to={`/movie_detail/${movie.id}`}>
+                                        <Card 
+                                            movie={movie} 
+                                            key={movie.id}
+                                            onClickCard={this.onClickCard}
+                                            language={language}                                        
+                                        /> 
+                                    </Link>                                                           
                                 </div>
                                 )
                             })

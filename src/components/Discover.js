@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import Card from './movie/Card';
@@ -68,13 +69,15 @@ class Discover extends Component {
                 <div className="row text-center">
                         {this.state.movies.map((movie) => {
                             return(
-                                <div className="col-12 col-lg-3">
-                                    <Card 
-                                        movie={movie} 
-                                        key={movie.id}
-                                        onClickCard={this.onClickCard}
-                                        language={language}                                        
-                                    />                        
+                                <div className="col-12 col-lg-3">                                    
+                                    <Link to={`/movie_detail/${movie.id}`}>
+                                        <Card 
+                                            movie={movie} 
+                                            key={movie.id}
+                                            onClickCard={this.onClickCard}
+                                            language={language}                                        
+                                        />  
+                                    </Link>                                                          
                                 </div>
                                 )
                             })

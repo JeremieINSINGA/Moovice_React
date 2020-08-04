@@ -16,6 +16,7 @@ class Details extends Component {
             trailerMovie: {},
             idMoviesList: this.getLocalStorage(),
         }
+        this.onClickFavorite = this.onClickFavorite.bind(this);
     }
 
     componentDidMount() {
@@ -70,6 +71,18 @@ class Details extends Component {
         return idMoviesList
     }
 
+    onClickFavorite(idMovie) {
+        // console.log('Details#onClickFavortie idMovie', idMovie);
+        const result = this.state.idMoviesList.filter(id => id !== idMovie);
+        // console.log('Details#onClickFavorite result', result)
+
+        this.setState ({
+            idMoviesList : result
+        })
+        localStorage.setItem("myList", JSON.stringify(result));
+
+    }
+
     render(){
         const { movie, language } = this.props;
         const { detailsMovie, idMoviesList, trailerMovie } = this.state;
@@ -107,8 +120,9 @@ class Details extends Component {
                     <div className="col-12 col-lg-8">
                         <h1 className="text-center">{detailsMovie.title}</h1> 
                         <Icon 
-                            onClick = {this.onClickFavorite}
+                            onClickFavorite = {this.onClickFavorite}
                             icon = {icon}
+                            id = {detailsMovie.id }
                         />                       
                         <h4 className="text-center mt-3">{detailsMovie.originalTitle}</h4>                       
 

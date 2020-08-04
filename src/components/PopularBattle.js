@@ -27,7 +27,7 @@ class PopularBattle extends Component {
     }
 
     chargedMovies() {
-        const url = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&language=${this.props.language}&api_key=d15480851b1c788638106a997f9e5127`;
+        const url = `${Config.API_ROOT}discover/movie?sort_by=popularity.desc&language=${this.props.language}&api_key=${Config.API_KEY}`;
         fetch(url).then((response) => response.json()).then(json => {
             let itemTemp = {};
             let movies = [];
@@ -68,7 +68,8 @@ class PopularBattle extends Component {
     
     render() {
         const { language }  = this.props;
-        let displayMovies   = this.state.movies.slice((this.state.currentMovie),(this.state.currentMovie + 2))
+        const { movies, currentMovie } = this.state;
+        let displayMovies   = movies.slice((currentMovie),(currentMovie + 2))
         let favoriteChoose  = "";
         let title           = "";
         if (language === 'en') {
@@ -84,11 +85,11 @@ class PopularBattle extends Component {
                 <h1 className="text-center">{title}</h1>
                 <h5 className="text-center mt-5">{favoriteChoose}</h5>
                 <div className="row">                    
-                    {displayMovies.map((item, i) => {
+                    {displayMovies.map((movie, i) => {
                         return(
                             <Card 
-                                item={item} 
-                                key={item.id}
+                                movie={movie} 
+                                key={movie.id}
                                 onClickCard={this.onClickCardBattle}
                                 language={language}
                             />

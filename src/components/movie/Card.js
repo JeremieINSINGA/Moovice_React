@@ -13,12 +13,13 @@ class Card extends Component {
         this.state = {
             idMoviesList: this.getLocalStorage(),
         }
-        this.onClick = this.onClick.bind(this);
+        this.onClick            = this.onClick.bind(this);
+        this.onClickFavorite    = this.onClickFavorite.bind(this);
     }
 
     getLocalStorage() {
-        let idMoviesList = localStorage.getItem('myList');
-        idMoviesList = JSON.parse(idMoviesList);
+        let idMoviesList    = localStorage.getItem('myList');
+        idMoviesList        = JSON.parse(idMoviesList);
         return idMoviesList
     }
     
@@ -27,22 +28,27 @@ class Card extends Component {
         this.props.onClickCard(this.props.movie.id);
     }
 
-    onClickFavorite() {
-        console.log('Card#onClickFavorite')
+    onClickFavorite(idMovie) {
+        // console.log('Details#onClickFavortie idMovie', idMovie);
+        const result = this.state.idMoviesList.filter(id => id !== idMovie);
+        // console.log('Details#onClickFavorite result', result)
+
+        this.setState ({
+            idMoviesList : result
+        })
+        localStorage.setItem("myList", JSON.stringify(result));
+
     }
 
     render() {
-        const { movie, language} = this.props;
+        const { movie, language } = this.props;
         const { idMoviesList } = this.state;
         let src = '';
         let alt = '';
-        console.log('IMG', movie.poster);
         if (movie.poster !== null) {
-            console.log('movie.poster', movie.poster)
             src = Config.IMG_ROOT + movie.poster;
             alt = 'Poster of ' + movie.title;
         } else {
-            console.log('null')
             src = placeholder
             alt = 'Poster of DVD'
         }
@@ -60,19 +66,22 @@ class Card extends Component {
         }
 
         return(
-            <div className="card" onClick={this.onClick} key={movie.id}>
+            <div className="card-favorite">
                 <Icon 
-                    onClick = {this.onClickFavorite}
+                    onClickFavorite = {this.onClickFavorite}
                     icon = {icon}
+                    id = {movie.id}
                 />
-                <Link to={`/movie_detail/${movie.id}`}>
+                <div className="card" onClick={this.onClick} key={movie.id}>
+                    
                     <img src={src} className="card-img-top" alt={alt} />
                     <div className="card-body">
                         <h6 className="card-title">{movie.title}</h6>
                         <p className="card-text">{releaseDate}{movie.date}</p>
-                    </div>
-                </Link>   
+                    </div>  
+                </div>
             </div>
+            
         );
     }    
 }

@@ -10,6 +10,7 @@ class MyList extends Component {
             moviesList: [],
             idMoviesList: this.getLocalStorage(),
         }
+        this.onClickCard = this.onClickCard.bind(this);
     }
 
     componentDidMount() {
@@ -48,8 +49,13 @@ class MyList extends Component {
         return idMoviesList
     }
 
+    onClickCard(idClicked) {
+        this.idClicked = idClicked;
+    }
+
     render() {
         const { language } = this.props;
+        const { moviesList } = this.state;
         let title = "";
         if (language === 'en') {
             title = "My List";
@@ -60,7 +66,7 @@ class MyList extends Component {
             <div className="container">
                 <h1 className="text-center">{title}</h1>
                 <div className="row text-center">
-                        {this.state.moviesList.map((movie) => {
+                        {moviesList.map((movie) => {
                             return(
                                 <div className="col-12 col-lg-3">
                                     <Link to={`/movie_detail/${movie.id}`}>
@@ -68,7 +74,7 @@ class MyList extends Component {
                                             movie={movie} 
                                             key={movie.id}
                                             onClickCard={this.onClickCard}
-                                            language={this.props.language}                                        
+                                            language={language}                 
                                         />
                                     </Link>                                    
                                 </div>
