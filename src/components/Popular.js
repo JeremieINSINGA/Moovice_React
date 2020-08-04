@@ -52,6 +52,7 @@ class Popular extends Component {
 
     render() {
         const { language } = this.props;
+        const { movies } = this.state;
         let title = "";
         if (language === 'en') {
             title = "Popular";
@@ -62,7 +63,7 @@ class Popular extends Component {
             <div className="container">
                 <h1 className="text-center">{title}</h1>
                 <div className="row text-center">
-                        {this.state.movies.map((movie) => {
+                        {movies.map((movie) => {
                             return(
                                 <div className="col-12 col-lg-3">
                                     <Link to={`/movie_detail/${movie.id}`}>
@@ -76,8 +77,8 @@ class Popular extends Component {
                                 </div>
                                 )
                             })
-                        }                   
-                </div>                
+                        }
+                </div>
             </div>
         );
     }

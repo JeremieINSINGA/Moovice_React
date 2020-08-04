@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import CardActor from '../actor/CardActor';
 import Button from '../core/Button';
 import Icon from '../core/Icon';
 import Config from '../../Config';
@@ -14,6 +15,7 @@ class Details extends Component {
             idMovie: 0,
             detailsMovie: {},
             trailerMovie: {},
+            actors: [],
             idMoviesList: this.getLocalStorage(),
         }
         this.onClickFavorite = this.onClickFavorite.bind(this);
@@ -28,7 +30,8 @@ class Details extends Component {
         this.setState({
             idMovie
         })
-        this.chargedDetailsMovie(idMovie)
+        this.chargedDetailsMovie(idMovie);
+        this.chargedActors(idMovie);
     }
 
     componentDidUpdate(prevProps) {
@@ -53,7 +56,7 @@ class Details extends Component {
                 detailsMovie
             })
         })
-        const urlTrailer = `https://api.themoviedb.org/3/movie/${idMovie}/videos?api_key=${Config.API_KEY}&language=${this.props.language}`;
+        const urlTrailer = `${Config.API_ROOT}movie/${idMovie}/videos?api_key=${Config.API_KEY}&language=${this.props.language}`;
         fetch(urlTrailer).then((response) => response.json()).then(json => {
             let trailerMovie = {};
             trailerMovie.id = json.id;
@@ -63,6 +66,25 @@ class Details extends Component {
                     trailerMovie
                 })
             }
+        })
+    }
+
+    chargedActors(idMovie) {
+        const urlActor = `${Config.API_ROOT}movie/${idMovie}/casts?api_key=${Config.API_KEY}`;
+        fetch(urlActor).then((response) => response.json()).then(json => {
+            let actorTemp = {};
+            let actors = [];
+            json.cast.map((actor) => {
+                actorTemp                = {};
+                actorTemp.character      = actor.character;
+                actorTemp.name           = actor.name;
+                actorTemp.profile        = actor.profile_path;
+                actorTemp.gender         = actor.gender;
+                actors.push(actorTemp);
+                this.setState({
+                    actors
+                })
+            })
         })
     }
 
@@ -86,10 +108,9 @@ class Details extends Component {
 
     render(){        
         const { language } = this.props;
-        const { detailsMovie, idMoviesList, trailerMovie } = this.state;
+        const { detailsMovie, idMoviesList, trailerMovie, actors } = this.state;
         let genres = {...detailsMovie};
         genres = genres.genres;
-        console.log('Details#render genres', genres);
         const src = Config.IMG_ROOT + detailsMovie.poster;
         const alt = 'Poster of ' + detailsMovie.title;
         const urlTrailer = Config.TRAILER_ROOT + trailerMovie.key;
@@ -141,8 +162,19 @@ class Details extends Component {
                             </button>
                         }
                     </div>
-                </div>         
-                
+                </div>
+                <h2>Actors</h2>
+                <div className="row justify-content-between">                    
+                    {actors.map((actor, i) => {
+                        return(
+                            <CardActor 
+                                actor={actor}
+                                language={language}
+                                key={i}
+                            />
+                        )
+                    })}
+                </div>
                 {/* -- Modal -- */}
                 <div className="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog" role="document">

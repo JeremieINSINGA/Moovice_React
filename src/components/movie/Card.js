@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 import Icon from '../core/Icon';
 import placeholder from '../../placeholder.png';
