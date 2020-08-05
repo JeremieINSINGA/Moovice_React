@@ -57,7 +57,8 @@ class Discover extends Component {
 
     render() {
         const { language } = this.props;
-        let title = "";
+        let isLink  = "true";
+        let title   = "";
         if (language === 'en') {
             title = "Discover";
         } else if (language === 'fr') {
@@ -69,15 +70,14 @@ class Discover extends Component {
                 <div className="row text-center">
                         {this.state.movies.map((movie) => {
                             return(
-                                <div className="col-12 col-lg-3">                                    
-                                    <Link to={`/movie_detail/${movie.id}`}>
-                                        <Card 
-                                            movie={movie} 
-                                            key={movie.id}
-                                            onClickCard={this.onClickCard}
-                                            language={language}                                        
-                                        />  
-                                    </Link>                                                          
+                                <div className="col-12 col-lg-3">
+                                    <Card 
+                                        isLink={isLink}
+                                        movie={movie} 
+                                        key={movie.id}
+                                        onClickCard={this.onClickCard}
+                                        language={language}                                        
+                                    />                                                       
                                 </div>
                                 )
                             })

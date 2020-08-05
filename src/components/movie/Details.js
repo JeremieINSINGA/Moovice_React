@@ -95,15 +95,23 @@ class Details extends Component {
     }
 
     onClickFavorite(idMovie) {
-        // console.log('Details#onClickFavortie idMovie', idMovie);
-        const result = this.state.idMoviesList.filter(id => id !== idMovie);
-        // console.log('Details#onClickFavorite result', result)
-
-        this.setState ({
-            idMoviesList : result
-        })
-        localStorage.setItem("myList", JSON.stringify(result));
-
+        if (this.state.idMoviesList.indexOf(idMovie) !== -1) {
+            console.log('this.state.idMoviesList.indexOf(idMovie)', this.state.idMoviesList.indexOf(idMovie))
+            const result = this.state.idMoviesList.filter(id => id !== idMovie);
+            this.setState ({
+                idMoviesList : result
+            })
+            localStorage.setItem("myList", JSON.stringify(result));
+        } else {
+            console.log('onClickFavorite else')
+            const storageStr = localStorage.getItem('myList');
+            let myList = [];
+            if (storageStr !== null) {
+                myList = JSON.parse(storageStr);
+            }
+            myList.push(idMovie);
+            localStorage.setItem("myList", JSON.stringify(myList))
+        }
     }
 
     render(){        

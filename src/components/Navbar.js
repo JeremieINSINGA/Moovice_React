@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+
 import Button from './core/Button';
 
 class Navbar extends Component {
@@ -51,19 +53,29 @@ class Navbar extends Component {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item active">
-                            <a className="nav-link" href="/">{thisWeek} <span className="sr-only">(current)</span></a>
+                            <NavLink exact className="nav-link" activeClassName="active" to="/"> 
+                                {thisWeek}
+                            </NavLink>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/week_battle">{thisWeekBattle}</a>
+                            <NavLink exact className="nav-link" activeClassName="active" to="/week_battle"> 
+                                {thisWeekBattle}
+                            </NavLink>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/popular">{popular}</a>
+                            <NavLink exact className="nav-link" activeClassName="active" to="/popular"> 
+                                {popular}
+                            </NavLink>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/popular_battle">{popularBattle}</a>
+                            <NavLink exact className="nav-link" activeClassName="active" to="/popular_battle"> 
+                                {popularBattle}
+                            </NavLink>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/my_list">{myList}</a>
+                            <NavLink exact className="nav-link" activeClassName="active" to="/my_list"> 
+                                {myList}
+                            </NavLink>
                         </li>
                     </ul>
                 </div>

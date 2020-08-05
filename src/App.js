@@ -38,8 +38,8 @@ class App extends Component {
     return(
       
         <>
-          <Navbar onChangeLanguage={this.onChangeLanguage} language={language}/>
           <Router>
+            <Navbar onChangeLanguage={this.onChangeLanguage} language={language}/>          
             <Switch>
               <Route exact path="/">
                 <Discover 

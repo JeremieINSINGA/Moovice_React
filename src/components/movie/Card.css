@@ -13,11 +13,17 @@
 }
 .card-favorite{
     position: relative;
+    width: 15em;
+    margin: 0 auto;
 }
 
 .material-icons {
     position: absolute;
     z-index: 1;
-    margin-left: 95px;
+    right: 0;
     color: red;
+}
+
+.material-icons:hover{
+    cursor: pointer;
 }

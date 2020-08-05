@@ -56,7 +56,8 @@ class MyList extends Component {
     render() {
         const { language } = this.props;
         const { moviesList } = this.state;
-        let title = "";
+        let isLink  = true;
+        let title   = "";
         if (language === 'en') {
             title = "My List";
         } else if (language === 'fr') {
@@ -69,14 +70,13 @@ class MyList extends Component {
                         {moviesList.map((movie) => {
                             return(
                                 <div className="col-12 col-lg-3">
-                                    <Link to={`/movie_detail/${movie.id}`}>
-                                        <Card 
-                                            movie={movie} 
-                                            key={movie.id}
-                                            onClickCard={this.onClickCard}
-                                            language={language}                 
-                                        />
-                                    </Link>                                    
+                                    <Card 
+                                        isLink={isLink}
+                                        movie={movie} 
+                                        key={movie.id}
+                                        onClickCard={this.onClickCard}
+                                        language={language}                 
+                                    />                                                                       
                                 </div>
                                 )
                             })

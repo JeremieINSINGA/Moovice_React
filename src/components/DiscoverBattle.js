@@ -72,15 +72,16 @@ class DiscoverBattle extends Component {
     render() {
         const { language }  = this.props;
         const { movies, currentMovie } = this.state;
+        let isLink = false;
         let displayMovies   = movies.slice((currentMovie),(currentMovie + 2))
         let favoriteChoose  = "";
         let title           = "";
         if (language === 'en') {
             favoriteChoose  = "Choose your favorite movie";
-            title           = "Popular Battle";
+            title           = "This Week Battle";
         } else if (language === 'fr') {
             favoriteChoose  = "Choisissez votre film favori";
-            title           = "Battle de films populaires";
+            title           = "Battle des sorties de la semaine";
         }
 
         return(
@@ -90,12 +91,15 @@ class DiscoverBattle extends Component {
                 <div className="row">                    
                     {displayMovies.map((movie, i) => {
                         return(
-                            <Card 
-                                movie={movie} 
-                                key={movie.id}
-                                onClickCard={this.onClickCardBattle}
-                                language={language}
-                            />
+                            <div className="col-6">
+                                <Card 
+                                    isLink={isLink}
+                                    movie={movie} 
+                                    key={movie.id}
+                                    onClickCard={this.onClickCardBattle}
+                                    language={language}
+                                />
+                            </div>
                         )
                     })}
                 </div>

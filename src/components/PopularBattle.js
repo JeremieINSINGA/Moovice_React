@@ -69,6 +69,7 @@ class PopularBattle extends Component {
     render() {
         const { language }  = this.props;
         const { movies, currentMovie } = this.state;
+        let isLink          = false;
         let displayMovies   = movies.slice((currentMovie),(currentMovie + 2))
         let favoriteChoose  = "";
         let title           = "";
@@ -84,15 +85,18 @@ class PopularBattle extends Component {
             <div className="container">
                 <h1 className="text-center">{title}</h1>
                 <h5 className="text-center mt-5">{favoriteChoose}</h5>
-                <div className="row">                    
+                <div className="row text-center justify-content-between">                   
                     {displayMovies.map((movie, i) => {
                         return(
-                            <Card 
-                                movie={movie} 
-                                key={movie.id}
-                                onClickCard={this.onClickCardBattle}
-                                language={language}
-                            />
+                            <div className="col-6">
+                                <Card 
+                                    isLink={isLink}
+                                    movie={movie} 
+                                    key={movie.id}
+                                    onClickCard={this.onClickCardBattle}
+                                    language={language}
+                                />
+                            </div>
                         )
                     })}
                 </div>

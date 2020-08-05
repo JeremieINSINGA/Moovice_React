@@ -12,6 +12,7 @@ class Popular extends Component {
         this.state = {
             movies: [], 
             value: false,
+            idMoviesList: this.getLocalStorage(),
         }
         this.onClickCard = this.onClickCard.bind(this);
     }
@@ -45,15 +46,41 @@ class Popular extends Component {
         })
     }
 
+    getLocalStorage() {
+        let idMoviesList = localStorage.getItem('myList');
+        idMoviesList = JSON.parse(idMoviesList);
+        return idMoviesList
+    }
 
     onClickCard(idClicked) {
         this.idClicked = idClicked;
     }
 
+    onClickFavorite(idMovie) {
+        if (this.state.idMoviesList.indexOf(idMovie) !== -1) {
+            console.log('this.state.idMoviesList.indexOf(idMovie)', this.state.idMoviesList.indexOf(idMovie))
+            const result = this.state.idMoviesList.filter(id => id !== idMovie);
+            this.setState ({
+                idMoviesList : result
+            })
+            localStorage.setItem("myList", JSON.stringify(result));
+        } else {
+            console.log('onClickFavorite else')
+            const storageStr = localStorage.getItem('myList');
+            let myList = [];
+            if (storageStr !== null) {
+                myList = JSON.parse(storageStr);
+            }
+            myList.push(idMovie);
+            localStorage.setItem("myList", JSON.stringify(myList))
+        }
+    }
+
     render() {
         const { language } = this.props;
         const { movies } = this.state;
-        let title = "";
+        let isLink  = true;
+        let title   = "";
         if (language === 'en') {
             title = "Popular";
         } else if (language === 'fr') {
@@ -68,6 +95,7 @@ class Popular extends Component {
                                 <div className="col-12 col-lg-3">
                                     <Link to={`/movie_detail/${movie.id}`}>
                                         <Card 
+                                            isLink={isLink}
                                             movie={movie} 
                                             key={movie.id}
                                             onClickCard={this.onClickCard}
