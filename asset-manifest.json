@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/react_moovice/static/css/main.ea2fc5b6.chunk.css",
+    "main.js": "/react_moovice/static/js/main.38491aa6.chunk.js",
+    "main.js.map": "/react_moovice/static/js/main.38491aa6.chunk.js.map",
+    "runtime-main.js": "/react_moovice/static/js/runtime-main.f5f93156.js",
+    "runtime-main.js.map": "/react_moovice/static/js/runtime-main.f5f93156.js.map",
+    "static/js/2.5af4ad07.chunk.js": "/react_moovice/static/js/2.5af4ad07.chunk.js",
+    "static/js/2.5af4ad07.chunk.js.map": "/react_moovice/static/js/2.5af4ad07.chunk.js.map",
+    "index.html": "/react_moovice/index.html",
+    "precache-manifest.43be4795c4ff0d868b7ce420c8482e35.js": "/react_moovice/precache-manifest.43be4795c4ff0d868b7ce420c8482e35.js",
+    "service-worker.js": "/react_moovice/service-worker.js",
+    "static/css/main.ea2fc5b6.chunk.css.map": "/react_moovice/static/css/main.ea2fc5b6.chunk.css.map",
+    "static/js/2.5af4ad07.chunk.js.LICENSE.txt": "/react_moovice/static/js/2.5af4ad07.chunk.js.LICENSE.txt",
+    "static/media/picture1.png": "/react_moovice/static/media/picture1.1f3446ab.png",
+    "static/media/picture2.png": "/react_moovice/static/media/picture2.6035261d.png",
+    "static/media/placeholder.png": "/react_moovice/static/media/placeholder.aaae2c16.png",
+    "static/media/vs.png": "/react_moovice/static/media/vs.254cfe0a.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f5f93156.js",
+    "static/js/2.5af4ad07.chunk.js",
+    "static/css/main.ea2fc5b6.chunk.css",
+    "static/js/main.38491aa6.chunk.js"
+  ]
+}
