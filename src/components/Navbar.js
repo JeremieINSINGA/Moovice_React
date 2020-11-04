@@ -11,7 +11,7 @@ class Navbar extends Component {
     
 
     onClickButtonLanguage() {
-        console.log("Navbar#OnClick")
+        // console.log("Navbar#OnClick")
         let language = ''
         if (this.props.language === 'en') {
             language = 'fr'

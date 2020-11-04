@@ -95,13 +95,24 @@ class Details extends Component {
     }
 
     onClickFavorite(idMovie) {
-        if (this.state.idMoviesList.indexOf(idMovie) !== -1) {
-            console.log('this.state.idMoviesList.indexOf(idMovie)', this.state.idMoviesList.indexOf(idMovie))
-            const result = this.state.idMoviesList.filter(id => id !== idMovie);
-            this.setState ({
-                idMoviesList : result
-            })
-            localStorage.setItem("myList", JSON.stringify(result));
+        if (this.state.idMoviesList) {
+            if (this.state.idMoviesList.indexOf(idMovie) !== -1) {
+                console.log('this.state.idMoviesList.indexOf(idMovie)', this.state.idMoviesList.indexOf(idMovie))
+                const result = this.state.idMoviesList.filter(id => id !== idMovie);
+                this.setState ({
+                    idMoviesList : result
+                })
+                localStorage.setItem("myList", JSON.stringify(result));
+            } else {
+                console.log('onClickFavorite else')
+                const storageStr = localStorage.getItem('myList');
+                let myList = [];
+                if (storageStr !== null) {
+                    myList = JSON.parse(storageStr);
+                }
+                myList.push(idMovie);
+                localStorage.setItem("myList", JSON.stringify(myList))
+            }
         } else {
             console.log('onClickFavorite else')
             const storageStr = localStorage.getItem('myList');
@@ -111,7 +122,7 @@ class Details extends Component {
             }
             myList.push(idMovie);
             localStorage.setItem("myList", JSON.stringify(myList))
-        }
+        }        
     }
 
     render(){        
@@ -132,11 +143,16 @@ class Details extends Component {
             returnButton = 'Retour';
         }
         let icon = '';
-        if (idMoviesList.includes(detailsMovie.id)) {
-            icon = 'favorite'
+        if (idMoviesList) {
+            if (idMoviesList.includes(detailsMovie.id)) {
+                icon = 'favorite'
+            } else {
+                icon = 'favorite_border'
+            }
         } else {
             icon = 'favorite_border'
         }
+        
 
         return(
             <div className="container">
@@ -159,7 +175,7 @@ class Details extends Component {
                         />                       
                         <h4 className="text-center mt-3">{detailsMovie.originalTitle}</h4>
                         <div className="row mb-3">
-                            {genres === undefined ? '' : genres.map((genre) => <div className="col-2 movie-genre text-center">{genre.name}</div>)}
+                            {genres === undefined ? '' : genres.map((genre, i) => <div className="col-2 movie-genre text-center" key={i}>{genre.name}</div>)}
                         </div>
                         <h5>Synopsie : </h5>
                         <p>{detailsMovie.description}</p>
@@ -173,18 +189,18 @@ class Details extends Component {
                 </div>
                 <h2>Actors</h2>
                 <div className="row justify-content-between">                    
-                    {actors.map((actor, i) => {
+                    {actors.map((actor, index) => {
                         return(
                             <CardActor 
                                 actor={actor}
                                 language={language}
-                                key={i}
+                                key={index}
                             />
                         )
                     })}
                 </div>
                 {/* -- Modal -- */}
-                <div className="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal fade" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-body">

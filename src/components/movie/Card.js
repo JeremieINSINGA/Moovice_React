@@ -24,7 +24,7 @@ class Card extends Component {
     }
     
     onClick() {
-        console.log(this.props.movie.id);
+        // console.log(this.props.movie.id);
         this.props.onClickCard(this.props.movie.id);
     }
 
@@ -42,7 +42,7 @@ class Card extends Component {
 
     render() {
         const { movie, language, isLink } = this.props;
-        console.log("Card isLink", isLink);
+        // console.log("Card isLink", isLink);
         const { idMoviesList } = this.state;
         let src = '';
         let alt = '';
@@ -60,11 +60,15 @@ class Card extends Component {
             releaseDate = 'Date de Sortie : ';
         }
         let icon = '';
-        if (idMoviesList.includes(movie.id)) {
-            icon = 'favorite'
+        if (idMoviesList) {
+            if (idMoviesList.includes(movie.id)) {
+                icon = 'favorite'
+            } else {
+                icon = 'favorite_border'
+            }
         } else {
             icon = 'favorite_border'
-        }
+        }    
 
         return(
             <div className="card-favorite">

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Card from './movie/Card';
 import './MyList.css';
 
@@ -24,19 +23,21 @@ class MyList extends Component {
         let movieTemp = {};
         let movies = [];
 
-        Promise.all(this.state.idMoviesList.map(movie => fetchMovie(movie))).then((moviesList) => {
-            moviesList.forEach(movie => {
-                movieTemp                = {};
-                movieTemp.id             = movie.id;
-                movieTemp.title          = movie.title;
-                movieTemp.poster         = movie.poster_path;
-                movieTemp.date           = movie.release_date;
-                movies.push(movieTemp);
-                this.setState({
-                    moviesList: movies,
-                })
-            });  
-        });
+        if (idMoviesList) {
+            Promise.all(this.state.idMoviesList.map(movie => fetchMovie(movie))).then((moviesList) => {
+                moviesList.forEach(movie => {
+                    movieTemp                = {};
+                    movieTemp.id             = movie.id;
+                    movieTemp.title          = movie.title;
+                    movieTemp.poster         = movie.poster_path;
+                    movieTemp.date           = movie.release_date;
+                    movies.push(movieTemp);
+                    this.setState({
+                        moviesList: movies,
+                    })
+                });  
+            });
+        }        
     }
 
     componentDidUpdate() {
@@ -54,33 +55,42 @@ class MyList extends Component {
     }
 
     render() {
-        const { language } = this.props;
-        const { moviesList } = this.state;
-        let isLink  = true;
-        let title   = "";
+        const { language }      = this.props;
+        const { moviesList,idMoviesList }    = this.state;
+        let isLink              = true;
+        let title               = "";
+        let notFavorite         = "";
         if (language === 'en') {
-            title = "My List";
+            title       = "My List";
+            notFavorite = "You don't have any favorites yet"
         } else if (language === 'fr') {
-            title = "Ma Liste";
+            title       = "Ma Liste";
+            notFavorite = "Vous n'avez pas encore de favoris";
         }
         return(
             <div className="container">
                 <h1 className="text-center">{title}</h1>
                 <div className="row text-center">
-                        {moviesList.map((movie) => {
+                    {idMoviesList ?
+                        (moviesList.map((movie, index) => {
                             return(
-                                <div className="col-12 col-lg-3">
+                                <div className="col-12 col-lg-3" key={index}>
                                     <Card 
                                         isLink={isLink}
                                         movie={movie} 
                                         key={movie.id}
                                         onClickCard={this.onClickCard}
                                         language={language}                 
-                                    />                                                                       
+                                    />
                                 </div>
                                 )
                             })
-                        }                   
+                        ) : (
+                            <div className="col-12 text-center">
+                                <h2>{notFavorite}</h2>                                                                     
+                            </div>
+                        )                    
+                    }                
                 </div>                
             </div>
         );
